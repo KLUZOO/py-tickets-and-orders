@@ -12,11 +12,11 @@ def create_order(
         date: str = None) -> None:
     with transaction.atomic():
         user = User.objects.get(username=username)
+        order = Order.objects.create(user=user)
         if date:
             parsed_date = datetime.fromisoformat(date)
-            order = Order.objects.create(created_at=parsed_date, user=user)
-        else:
-            order = Order.objects.create(user=user)
+            order.created_at=parsed_date
+            order.save()
         for ticket in tickets:
             Ticket.objects.create(
                 movie_session_id=ticket["movie_session"],
