@@ -15,7 +15,7 @@ def create_order(
         order = Order.objects.create(user=user)
         if date:
             parsed_date = datetime.fromisoformat(date)
-            order.created_at=parsed_date
+            order.created_at = parsed_date
             order.save()
         for ticket in tickets:
             Ticket.objects.create(
@@ -29,7 +29,9 @@ def create_order(
 def get_orders(username: str = None) -> QuerySet | None:
     try:
         if username:
-            return Order.objects.filter(user=User.objects.get(username=username))
+            return Order.objects.filter(
+                user=User.objects.get(username=username)
+            )
         else:
             return Order.objects.all()
     except User.DoesNotExist:
